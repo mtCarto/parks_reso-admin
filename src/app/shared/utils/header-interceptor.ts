@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
  * Intercepts all http requests and allows for the request and/or response to be manipulated.
  *
  * @export
- * @class TokenInterceptor
+ * @class EnvironmentInterceptor
  * @implements {HttpInterceptor}
  */
 @Injectable()
@@ -21,23 +21,16 @@ export class EnvironmentInterceptor implements HttpInterceptor {
    * @param {HttpRequest<any>} request
    * @param {HttpHandler} next
    * @returns {Observable<HttpEvent<any>>}
-   * @memberof TokenInterceptor
+   * @memberof EnvironmentInterceptor
    */
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<any> {
-    console.log('request: ', request);
+    const apiURL = request.headers.get('api-url');
+    console.log(apiURL);
 
     const update = {} as any;
 
     update.url = `super_api/${request.url}`;
 
     return next.handle(request.clone(update));
-    // return next.handle(request).pipe(
-    //   catchError(error => {
-    //     if (error.status === 403) {
-    //       console.log('403 caught')
-    //     }
-    //     return throwError(error);
-    //   })
-    // );
   }
 }

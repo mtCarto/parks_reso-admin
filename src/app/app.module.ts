@@ -1,3 +1,4 @@
+import { EnvironmentInterceptor } from './shared/utils/header-interceptor';
 import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
@@ -73,6 +74,11 @@ export function initConfig(configService: ConfigService, keycloakService: Keyclo
     ToastrModule.forRoot()
   ],
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: EnvironmentInterceptor,
+      multi: true
+    },
     {
       provide: APP_INITIALIZER,
       useFactory: initConfig,
